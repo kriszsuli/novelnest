@@ -5,6 +5,8 @@ const cors = require('cors');
 require('dotenv').config();
 const app = express();
 
+const PORT = process.env.PORT || 3000;
+
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(cors());
@@ -27,7 +29,6 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'internal server error', error: 500 });
 });
 
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Backend listening on :${PORT}`);
 });
