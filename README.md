@@ -3,7 +3,7 @@ IKT Projektmunka feladat, könyvértékelő oldal
 
 <img src="https://raw.githubusercontent.com/fluffyastro/school-cs/26bd8fcb03415604c60031a4434aa2f41b16a2e7/dolg.png">
 <br></br>
-## Fejlesztők
+<h1>Fejlesztők</h1>
 
 ### [Krisz](https://susu.liba.lol)
 
