@@ -13,6 +13,23 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+class Review {
+    constructor(name, rating, book) {
+        this.name = name
+        this.rating = rating
+        this.book = book
+    }
+}
+
+var database = [
+    new Review("Skibidi Pista", 9.6, "Rézműves Batu legendája"),
+    new Review("Skibidi Pista", 9.6, "Rézműves Batu legendája"),
+    new Review("Skibidi Pista", 9.6, "Rézműves Batu legendája"),
+    new Review("Skibidi Pista", 9.6, "Rézműves Batu legendája"),
+    new Review("Skibidi Pista", 9.6, "Rézműves Batu legendája"),
+    new Review("Skibidi Pista", 9.6, "Rézműves Batu legendája")
+]
+
 app.get('/', (req, res) => {
     res.json({
         message: 'ok',
@@ -31,4 +48,9 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
     console.log(`Backend listening on :${PORT}`);
+    for (let index = 0; index < database.length; index++) {
+        const element = database[index];
+        console.log(element.name + " || " + element.rating + " || " + element.book)
+        console.log("---------------------------------------------------------------")
+    }
 });
