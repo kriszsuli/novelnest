@@ -9,7 +9,10 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
 const booksRouter = require("./routes/books");
+const moviesRouter = require("./routes/movies");
 const authRouter = require("./routes/auth");
+
+const package = require('./package.json');
 
 const PORT = process.env.PORT || 3000;
 
@@ -47,10 +50,12 @@ mongoose
   });
 
 app.use("/api/books", booksRouter);
+app.use("/api/movies", moviesRouter);
 app.use("/api/auth", authRouter);
 
 app.get("/", (req, res) => {
   res.json({
+    name: package.name,
     message: "ok",
     version: process.env.VERSION || "unreported",
   });

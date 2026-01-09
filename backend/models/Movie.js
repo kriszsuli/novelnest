@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const movieSchema = new Schema(
   {
@@ -7,6 +8,7 @@ const movieSchema = new Schema(
     director: { type: String, required: true },
     releaseDate: { type: Date, default: new Date(), required: false },
     addedBy: { type: String, required: true },
+    image: { type: String, required: false, default: "/assets/default-cover.png" },
     genre: { type: [String], default: [], required: false },
     summary: { type: String, default: "", required: false },
     imdbId: { type: String, unique: true, required: false },
@@ -22,5 +24,7 @@ const movieSchema = new Schema(
   },
   { timestamps: true },
 );
+
+movieSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("Movie", movieSchema);
