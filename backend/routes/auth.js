@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+const authMiddleware = require("../middlewares/authMiddleware");
 //const { v4: uuidv4 } = import("uuid");
 // meg fogom ölni magam
 
@@ -77,5 +79,38 @@ router.post("/register", async (req, res, next) => {
       .json({ error: "Internal server error. Please try again later." });
   }
 });
+
+router.post("/login", async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    return req.status(400).json({
+      error: "Missing required fields.",
+    });
+  try {
+    const user = await Users.findOne({ email });
+    if (!user)
+      return res.status(400).json({
+        error: "Invalid email or password.",
+      });
+    const validPassword = await bcrypt.compare(password, user.passwordHash);
+    if (!validPassword)
+      return res.status(400).json({
+        error: "Invalid email or password.",
+      });
+    const token = jwt.sign(
+      { id: user.id, username: user.username, email: user.email, roles: user.roles },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+    res.status(200).json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error. Please try again later." });
+  }
+});
+
+router.get("/me", authMiddleware, async (req, res, next) => {
+  res.json({ user: req.user });
+})
 
 module.exports = router;
